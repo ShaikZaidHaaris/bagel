@@ -51,6 +51,7 @@ Can’t wait to try it out? 👉 Check out the [Quickstart](#️-quickstart).
 | Industry     | Formats                        |
 | ------------ | ------------------------------ |
 | **Robotics** | ROS1, ROS2, MCAP (any profile), ROS text logs (`~/.ros/log`) |
+| **Robot learning** | [Gantry Bench](https://github.com/ShaikZaidHaaris/gantry) evidence bundles — a dataset verdict's working (per-clip signal checks, robot-test ladder, findings) as queryable tables |
 | **Drones**   | PX4, ArduPilot, Betaflight     |
 | **Automotive** | ASAM MDF4 (`.mf4`), CAN captures (`.blf`/`.asc` + DBC) — *beta* |
 | **IoT**      | MQTT (live, Sparkplug B), PostgreSQL / TimescaleDB, InfluxDB 3 |
