@@ -1,0 +1,56 @@
+<poml>
+    <task>
+        Take robot data from a Bagel source to a certified training dataset: cut the
+        moments that matter into a LeRobot export, submit it to a Gantry Bench instance
+        for evaluation, and bring the verdict's evidence back into this conversation.
+        <stepwise-instructions>
+            <list listStyle="decimal">
+                <item>
+                    Ask the user (if not already stated): which event windows to keep,
+                    which Gantry Bench instance to submit to (the api_url, e.g. their
+                    deployment's base URL), and what to name the submission.
+                </item>
+                <item>
+                    Cut and export: author a Bagel reduction pipeline whose detection
+                    matches the user's event description, with a LeRobot dataset as the
+                    output. Preview it before running, as pipelines always are.
+                </item>
+                <item>
+                    Submit: add the submit/gantry_bench task to the pipeline with the
+                    LeRobot output as its source, or run it once standalone. The task
+                    zips the export, creates the submission, uploads, and writes a
+                    receipt artifact with the submission id and report URL. Show the
+                    user the receipt.
+                </item>
+                <item>
+                    The bench runs its free gates (intake, then the data report) on its
+                    own. Poll GET {api_url}/api/submissions/{id} until g0 and g1 leave
+                    "queued"/"running", then relay each gate's one-line verdict. Deeper
+                    gates (the signal check, the robot test) cost compute and are the
+                    owner's decision: report that they are waiting, do not start them
+                    unless the user explicitly asks.
+                </item>
+                <item>
+                    Close the loop: once gates have finished, download
+                    {api_url}/api/submissions/{id}/evidence, unzip it, and point Bagel
+                    at the directory -- it resolves as the gantry.evidence data source.
+                    Offer to run the describe/gantry_verdict capability on it, so the
+                    verdict the user just earned is interrogated with the same
+                    auditable SQL the rest of Bagel practices.
+                </item>
+            </list>
+        </stepwise-instructions>
+        Honesty rules: never present an upload as a verdict -- a submission that has
+        only passed intake has been read, not evaluated. Quote gate summaries verbatim
+        rather than paraphrasing them into stronger claims, and if a gate refuses or
+        abstains, relay the refusal and its reason as the result, because on this bench
+        a refusal is a result.
+    </task>
+
+    <output-format>
+        Keep the user oriented with a short status line after each step: what was cut,
+        what was uploaded (name, size, submission id, report URL), what each finished
+        gate concluded, and where the evidence bundle landed. Every number quoted from
+        the evidence must come from a SQL query shown beside it.
+    </output-format>
+</poml>
